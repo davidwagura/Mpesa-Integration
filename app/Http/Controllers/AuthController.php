@@ -25,9 +25,10 @@ class AuthController extends Controller
 
         $token=$user->createToken('auth_token')->plainTextToken;
 
+
         return response([
             'message' => 'registered succesfully',
-            'token' => $token,
+            'access_token' => $token,
             'token_type' => 'Bearer'
         ]);
     }
@@ -35,8 +36,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email'=>'required|unique:users|max:255',
-            'password'=>'required|max:255',
+            'email'=>'required',
+            'password'=>'required',
         ]);
 
         $user=User::where('email',$request->email)->first();
@@ -50,7 +51,7 @@ class AuthController extends Controller
         $token=$user->createToken('auth_token')->plainTextToken;
 
         return response([
-            'message' => 'registered succesfully',
+            'message' => 'logged in succesfully',
             'token' => $token,
             'token_type' => 'Bearer'
         ],201);
